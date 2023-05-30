@@ -1,0 +1,74 @@
+{
+  "name": "react-google-maps",
+  "version": "0.0.1",
+  "description": "TNS fork of react-google-maps for better react support",
+  "main": "lib/index.js",
+  "files": [
+    "types/index.d.ts",
+    "lib/",
+    "src/"
+  ],
+  "scripts": {
+    "build": "rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib --ignore tx"
+  },
+  "babel": {
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-object-rest-spread",
+      "transform-runtime"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "ie": 9
+          }
+        }
+      ],
+      "react"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": false,
+    "trailingComma": "es5"
+  },
+  "types": "types",
+  "dependencies": {
+    "babel-runtime": "^6.11.6",
+    "can-use-dom": "^0.1.0",
+    "google-maps-infobox": "^2.0.0",
+    "invariant": "^2.2.1",
+    "lodash": "^4.16.2",
+    "markerwithlabel": "^2.0.1",
+    "prop-types": "^15.5.8",
+    "recompose": "^0.26.0",
+    "scriptjs": "^2.5.8",
+    "warning": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@types/googlemaps": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.29.2",
+    "@types/markerclustererplus": "^2.1.33",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.1.1",
+    "dtslint": "github:Microsoft/dtslint#production",
+    "eslint": "^4.11.0",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^2.6.2"
+  }
+}
