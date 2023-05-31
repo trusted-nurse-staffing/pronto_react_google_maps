@@ -22,7 +22,7 @@ import { MAP, CIRCLE } from "../constants"
  *
  * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
  */
-export class Circle extends React.PureComponent {
+export class Circle extends React.Component {
   static propTypes = {
     /**
      * @type LatLng|LatLngLiteral
