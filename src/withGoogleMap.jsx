@@ -3,14 +3,24 @@ import _ from "lodash"
 import warning from "warning"
 import invariant from "invariant"
 import { getDisplayName } from "recompose"
+import PropTypes from "prop-types"
 import React from "react"
 import { MAP } from "./constants"
 
 export function withGoogleMap(BaseComponent) {
-  const InjectedComponent = React.createElement(BaseComponent)
+  const factory = React.createFactory(BaseComponent)
 
   class Container extends React.PureComponent {
     static displayName = `withGoogleMap(${getDisplayName(BaseComponent)})`
+
+    static propTypes = {
+      containerElement: PropTypes.node.isRequired,
+      mapElement: PropTypes.node.isRequired,
+    }
+
+    static childContextTypes = {
+      [MAP]: PropTypes.object,
+    }
 
     state = {
       map: null,
@@ -25,7 +35,6 @@ export function withGoogleMap(BaseComponent) {
     }
 
     componentWillMount() {
-      console.log(this.props, this)
       const { containerElement, mapElement } = this.props
       invariant(
         !!containerElement && !!mapElement,
@@ -63,7 +72,7 @@ export function withGoogleMap(BaseComponent) {
           React.cloneElement(mapElement, {
             ref: this.handleComponentMount,
           }),
-          <div><InjectedComponent {...restProps}/></div>
+          <div>{factory(restProps)}</div>
         )
       } else {
         return React.cloneElement(

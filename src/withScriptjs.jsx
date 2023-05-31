@@ -2,6 +2,7 @@ import _ from "lodash"
 import invariant from "invariant"
 import canUseDOM from "can-use-dom"
 import { getDisplayName } from "recompose"
+import PropTypes from "prop-types"
 import React from "react"
 
 const LOADING_STATE_NONE = `NONE`
@@ -9,10 +10,15 @@ const LOADING_STATE_BEGIN = `BEGIN`
 const LOADING_STATE_LOADED = `LOADED`
 
 export function withScriptjs(BaseComponent) {
-  const InjectedComponent = React.createElement(BaseComponent)
+  const factory = React.createFactory(BaseComponent)
 
   class Container extends React.PureComponent {
     static displayName = `withScriptjs(${getDisplayName(BaseComponent)})`
+
+    static propTypes = {
+      loadingElement: PropTypes.node.isRequired,
+      googleMapURL: PropTypes.string.isRequired,
+    }
 
     state = {
       loadingState: LOADING_STATE_NONE,
@@ -32,7 +38,6 @@ export function withScriptjs(BaseComponent) {
     }
 
     componentWillMount() {
-      console.log(this.props, this)
       const { loadingElement, googleMapURL } = this.props
       invariant(
         !!loadingElement && !!googleMapURL,
@@ -60,7 +65,6 @@ export function withScriptjs(BaseComponent) {
     }
 
     render() {
-      console.log(this.props)
       const {
         loadingElement,
         googleMapURL, // eslint-disable-line no-unused-vars
@@ -71,11 +75,15 @@ export function withScriptjs(BaseComponent) {
 
       if (loadingState === LOADING_STATE_LOADED) {
         return (
-          <React.Fragment><InjectedComponent {...restProps}/></React.Fragment>
+          <React.Fragment>
+            {factory(restProps)}
+          </React.Fragment>
         )
       } else {
         return (
-          <React.Fragment>{loadingElement}</React.Fragment>
+          <React.Fragment>
+            {loadingElement}
+          </React.Fragment>
         )
       }
     }

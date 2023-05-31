@@ -6,6 +6,7 @@
  */
 /* global google */
 import React from "react"
+import ReactDOMClient from "react-dom/client"
 import PropTypes from "prop-types"
 import makeMarkerWithLabel from "markerwithlabel"
 import ReactDOM from "react-dom"
@@ -345,10 +346,8 @@ export class MarkerWithLabel extends React.PureComponent {
   componentDidMount() {
     componentDidMount(this, this.state[MARKER_WITH_LABEL], eventMap)
     const container = document.createElement(`div`)
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      React.Children.only(this.props.children),
-      container
+    ReactDOMClient.createRoot(container).render(
+      React.Children.only(this.props.children)
     )
     this.state[MARKER_WITH_LABEL].set(`labelContent`, container)
   }
@@ -362,8 +361,7 @@ export class MarkerWithLabel extends React.PureComponent {
       prevProps
     )
     if (this.props.children !== prevProps.children) {
-      ReactDOM.unstable_renderSubtreeIntoContainer(
-        this,
+      ReactDOM.createPortal(
         React.Children.only(this.props.children),
         this.state[MARKER_WITH_LABEL].get("labelContent")
       )
