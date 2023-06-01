@@ -378,7 +378,11 @@ export class MarkerWithLabel extends React.PureComponent {
         markerClusterer.removeMarker(markerWithLabel, !!this.props.noRedraw)
       }
       if (markerWithLabel.get("labelContent")) {
-        this.containerRoot.unmount()
+        setTimeout(() => {
+          if (this.containerRoot && typeof this.containerRoot.unmount === 'function') {
+            this.containerRoot.unmount();
+          }
+        });
       }
       markerWithLabel.setMap(null)
     }
